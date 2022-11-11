@@ -1,6 +1,6 @@
 /**
  ****************************************************************************************
- *   @file          : p3.c
+ *   @file          : p4.c
  *   @author        : Ahmed Ali
  *   @brief         : C program to calculate the power using recursion.
  ****************************************************************************************
@@ -11,8 +11,8 @@
 /* ****************************** Includes Section End   **************************** */
 /* ****************************** Macros Section Start ****************************** */
 #define SUCCESS  0
-#define ONE      1
 #define I_ZERO   0
+#define ONE      1
 #define F_ZERO   0.0
 /* ****************************** Macros Section End   ****************************** */
 /* ****************************** Global Declarations Section Start ***************** */
@@ -30,15 +30,7 @@ int main(void)
 	printf("Enter exponent: ");
 	scanf("%lf", &exponent);
 	
-	if(exponent >= F_ZERO)
-	{
-		result = power(base,exponent);
-	}
-	else
-	{
-		result = ONE / power(base,exponent);
-	}
-	
+	result = power(base,exponent);
 	printf("%.2lf ^ %.2lf = %.4lf", base, exponent, result);
 	return SUCCESS;
 }
@@ -62,19 +54,47 @@ double power(double base, double exponent)
 			This runtime error means stack overflow (usually caused by infinite recursion. 
 			This function will work if exponent is integer only, either positive or negative. 
 	*/
-	
+	double result = ONE;
 		if(F_ZERO == exponent)
 		{
 			return ONE;
 		}
 		else
 		{
+			
 			if(exponent > F_ZERO)
+			{
 				return base * power(base,--exponent);
+			}
 			else 
-				return (base * power(base,++exponent));
+			{
+				/*
+					Note:
+						I know you ask yourself now: why he not use recursion here as shown below:
+						result = base * power(base,++exponent);?
+						I'll not answer you. but you can exchange loop with this line and show result!
+						there is logical error in this method and i can't determine which part cause
+						this error now!
+				*/
+				while(exponent != I_ZERO)
+				{
+					result = result * base;
+					exponent++;
+				}
+				
+				return ONE / result;
+			}
 		}
+		
 }
+
+/**
+ ****************************************************************************************
+ *  @brief          : Calculate power of fractional exponent.
+ *  @param          : double (base,  integer_part, fraction_part)
+ *  @return         : double
+ ****************************************************************************************
+*/
 
 double fractional_power(double base,signed int integer_part,signed int fraction_part)
 {
@@ -97,7 +117,8 @@ double fractional_power(double base,signed int integer_part,signed int fraction_
 			I can get it using this eq: pow(number, 1.0/10);
 			but i want not to use pow function in my program, so what?!
 	*/
-	//todo
+	
+	/* todo */
 	return F_ZERO;
 }
 /* ****************************** Sub-Programs Section End   ****************************** */
